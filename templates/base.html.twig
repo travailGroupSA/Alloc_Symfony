@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+        <link href="{{ asset('styles/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('styles/style1.css') }}" rel="stylesheet" type="text/css"/>
+        <?php use_javascript('jquery-1.2.6.min.js') ?>
+        <?php include_javascripts() ?>
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+            <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+          <header class="masthead mb-auto">
+            <div class="inner">
+              <h3 class="masthead-brand">SA Allocation</h3>
+              {% block nav %}
+              <nav class="nav nav-masthead justify-content-center">
+                <a class="nav-link active" href="#">Deconnexion</a>
+              </nav>
+              {% endblock %}
+            </div>
+          </header>
+        
+          
+          <main class="inner cover">
+            {% block changer %}
+            <h1 class="cover-heading">Bienvenue à SA Allocation.</h1>
+            <!-- <p class="lead">En tant qu'etudiant je peux consulter mes informtions</p> -->
+            <!-- <div class=""> -->
+           
+          
+              <!-- <a href="#" class="btn btn-lg btn-secondary">Consulter ses infos</a> -->
+            <!-- </div> -->
+            {% endblock %}
+          </main>
+          
+          
+          <footer class="mastfoot mt-auto">
+            <div class="inner">
+              <p></p>
+            </div>
+          </footer>
+        </div>
+        {% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

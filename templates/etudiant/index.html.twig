@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EtudiantController!{% endblock %}
+
+{% block changer %}
+<!-- <h1><a href="{{ path('etudiant') }}">Personne</a> </h1> -->
+<style>
+  table{
+    margin-left:-13em;
+    max-width: 100vw;
+  }
+</style>
+<a href="{{path('createEtudiant')}}"><input type='button' class='btn btn-primary' value='Ajouter un etudiant'></a>
+<table class="table table-striped col-5 mt-1">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">matricule</th>
+      <th scope="col">Prenom</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Birthday</th>
+      <th scope="col">Boursier</th>
+      <th scope="col">Adresse</th>
+      <th scope="col">Chambre</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody class="bg-white">
+    {% for etudiant in etudiants %}
+    <tr>
+      <td>{{etudiant.matricule}}</td>
+      <td>{{etudiant.prenom}}</td>
+      <td>{{etudiant.nom}}</td>
+      <td>{{etudiant.birthday|date('d/m/Y')}}</td>
+      <td>{{etudiant.boursier}}</td>
+      <td>{{etudiant.adresse}}</td>
+      <td>{{etudiant.chambre.numChambre}}</td>
+      <td><a href="{{path('updateEtudiant',{'id' : etudiant.id} )}}"><input type='button' class='btn btn-primary' value='Modifier'></a></td>
+      <td><a href="{{path('deleteEtudiant',{'id' : etudiant.id} )}}" onclick="return confirm('Vous vous supprimer')"><input type='button' class='btn btn-danger' value='Supprimer'></a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

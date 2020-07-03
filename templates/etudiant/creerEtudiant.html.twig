@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}creation etudiant{% endblock %}
+
+{% block nav %}
+{% endblock %}
+{% block changer %}
+<div class="overflow-auto card bg-dark hv-100" style=" height:  90vh;width: 18rem;">
+  <img  class="card-img-top">
+  <div class="card-body">
+    {{form_start(form)}}
+    {{form_widget(form)}}
+    <input type="submit" class="btn btn-primary" value="Enregistrer">
+    {{form_end(form)}}
+  </div>
+</div>
+{% endblock %}
