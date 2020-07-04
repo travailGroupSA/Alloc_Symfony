@@ -2,21 +2,41 @@
 
 namespace App\Controller;
 
+use App\Entity\Admin;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+    //contructeur pour gere l injection de dependance password..
+    // private $passwordEncoder;
+    // public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    // {
+    //     $this->passwordEncoder = $passwordEncoder;
+    // }
+    //fin
+
     /**
      * @Route("/", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, EntityManagerInterface $em): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+
+        //engister un admin
+        $admin = new Admin();
+        // $admin->setUsername('admin');
+        // $admin->setPassword($this->passwordEncoder->encodePassword($admin, 'admin'));
+        // $em->persist($admin);
+        // $em->flush();
+        //fin enregistrement admin
+
+        if ($this->getUser()) {
+            return $this->redirectToRoute('chambre_index');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

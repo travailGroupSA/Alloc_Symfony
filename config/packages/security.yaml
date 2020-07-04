@@ -38,4 +38,4 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/chambre, roles: [ROLE_ADMIN] }
+        - { path: ^/chambre, roles: [ROLE_USER] }
