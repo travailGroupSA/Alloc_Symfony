@@ -1,15 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EtudiantController!{% endblock %}
+{% block title %}Chambre index{% endblock %}
 
-{% block nav %}
-{% endblock %}
-{% block changer %}
-<!-- <div class="example-wrapper"> -->
-    <div class="form-group">
-      <label for=""></label>
-      <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
-      <small id="helpId" class="text-muted">Help text</small>
-    </div>
-<!-- </div> -->
+{% block body %}
+    <h1>Chambre index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NumChambre</th>
+                <th>NumBatiment</th>
+                <th>Type</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for chambre in chambres %}
+            <tr>
+                <td>{{ chambre.id }}</td>
+                <td>{{ chambre.numChambre }}</td>
+                <td>{{ chambre.numBatiment }}</td>
+                <td>{{ chambre.type }}</td>
+                <td>
+                    <a href="{{ path('chambre_show', {'id': chambre.id}) }}">show</a>
+                    <a href="{{ path('chambre_edit', {'id': chambre.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('chambre_new') }}">Create new</a>
 {% endblock %}
