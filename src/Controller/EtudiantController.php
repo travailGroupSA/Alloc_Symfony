@@ -1,19 +1,33 @@
 <?php
 
-namespace App\Controller;
-
+namespace App\Controller; 
+use Doctrine\DBAL\Types\DateTimeType;
+use App\functions\GenereMatricule;
 use App\Entity\Etudiant;
 use App\Form\EtudiantType;
 use App\Repository\EtudiantRepository;
 use Symfony\Component\HttpFoundation\Request;
-// use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
-// use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 class EtudiantController extends AbstractController
 {
+
+    public function generateMat($nom,$prenom){
+        $annee = date('Y');
+        // echo $annee;
+        $aleat=rand();
+        $aleat=substr($aleat,0,4);
+        //deux premierr lettres du nom
+        $twoFirstLetters = strtoupper(substr($nom,0,2));
+        //deux derniers lettres du prenom
+        $twoLastLetters =  strtoupper(substr($prenom,-2));
+    
+        return $matricule = $annee.$twoFirstLetters.$twoLastLetters.$aleat;
+    }
+
+
     /**
      * @Route("/etudiant", name="etudiant")
      */
@@ -32,10 +46,14 @@ class EtudiantController extends AbstractController
         //$requete=>la soumission
         //creation d'1 objet Etudiant
         $etudiant = new Etudiant();
+        
+        $etudiant->setDateInscription(new \DateTime("now"));
+        
         //creation du formulaire
         //on cree en mm temps un objet Etudiant=>hydrate
         $form = $this->createForm(EtudiantType::class,$etudiant);
         $form->handleRequest($requete);
+        $etudiant->setMatricule($this->generateMat($etudiant->getNom(),$etudiant->getPrenom()));
         if($form->isSubmitted() && $form->isValid()){
             // dd($etudiant);
             // $manager = $this->getDoctrine()->getManager();
