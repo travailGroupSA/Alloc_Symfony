@@ -1,39 +1,25 @@
-{% extends 'base.html.twig' %}
-
+{% extends 'layouts/_base.html.twig' %}
 {% block title %}Chambre index{% endblock %}
 
 {% block body %}
-    <h1>Chambre index</h1>
+    {% include 'partials/_header.html.twig' only %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>NumChambre</th>
-                <th>NumBatiment</th>
-                <th>Type</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for chambre in chambres %}
-            <tr>
-                <td>{{ chambre.id }}</td>
-                <td>{{ chambre.numChambre }}</td>
-                <td>{{ chambre.numBatiment }}</td>
-                <td>{{ chambre.type }}</td>
-                <td>
-                    <a href="{{ path('chambre_show', {'id': chambre.id}) }}">show</a>
-                    <a href="{{ path('chambre_edit', {'id': chambre.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="row">
+    <h3 class="col-6">Liste Chambre</h3>
+   {# <button href="" id="addEtudiant"
+        class=" btn btn-success float-right offset-4 " data-toggle="modal"
+        data-target=".modalAddEtudiant" role="button">Ajouter
+        Etudiant</button>#}
+        <a  class=" btn btn-success float-right offset-4 " href="{{ path('chambre_new') }}">
+            Ajouter Une Chambre
+        </a>
+</div>
+<div id="paginate_container">
+{% include "chambre/_chambrePaginator.html.twig" %}
+</div>
+{# display navigation #}
+<div class="navigation">
+    {# {{ knp_pagination_render(chambres) }} #}
+</div>
 
-    <a href="{{ path('chambre_new') }}">Create new</a>
 {% endblock %}

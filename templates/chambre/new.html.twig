@@ -1,11 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/_base.html.twig' %}
 
-{% block title %}New Chambre{% endblock %}
+{% block title %}Ajouter Une Chambre{% endblock %}
 
 {% block body %}
-    <h1>Create new Chambre</h1>
-
+{% include "partials/_header.html.twig" %}
+<a class="btn btn-primary col-2 offset-1 mb-1" href="{{ path('chambre_index') }}">Liste chambre</a>
     {{ include('chambre/_form.html.twig') }}
-
-    <a href="{{ path('chambre_index') }}">back to list</a>
 {% endblock %}

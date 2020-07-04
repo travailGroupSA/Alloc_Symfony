@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\Chambre;
 use App\Form\ChambreType;
 use App\Repository\ChambreRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/chambre")
@@ -26,22 +27,34 @@ class ChambreController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="chambre_new", methods={"GET","POST"})
+     * @Route("/create", name="chambre_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request,  EntityManagerInterface $em): Response
     {
         $chambre = new Chambre();
-        $form = $this->createForm(ChambreType::class, $chambre);
+        $form = $this->createForm(ChambreType::class, $chambre, [
+            'attr' => ['id' => "add_chambre", 'class' => "col-10 offset-1"]
+        ]);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($chambre);
-            $entityManager->flush();
-
+        //verife si la requete est en ajax
+        if ($request->isXmlHttpRequest()) {
+            $data = $request->request->all();
+            $numChambre = $this->generateNumChambre($data['numBatiment']);
+            $chambre->setNumChambre($numChambre);
+            $chambre->setNumBatiment($data['numBatiment']);
+            $chambre->setType($data['type']);
+            $em->persist($chambre);
+            $em->flush();
+            return $this->json(['response' => 'envoyé']);
+        } else if ($form->isSubmitted() && $form->isValid()) {
+            // $data = $form->getData();
+            // $numBatiment = $data->getNumBatiment();
+            $numChambre = $this->generateNumChambre($chambre->getNumBatiment());
+            $chambre->setNumChambre($numChambre);
+            $em->persist($chambre);
+            $em->flush();
             return $this->redirectToRoute('chambre_index');
         }
-
         return $this->render('chambre/new.html.twig', [
             'chambre' => $chambre,
             'form' => $form->createView(),
@@ -59,12 +72,21 @@ class ChambreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="chambre_edit", methods={"GET","POST"})
+     * @Route("/{id}/update", name="chambre_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Chambre $chambre): Response
+    public function edit(Request $request, Chambre $chambre, EntityManagerInterface $em): Response
     {
-        $form = $this->createForm(ChambreType::class, $chambre);
+        $form = $this->createForm(ChambreType::class, $chambre, [
+            'attr' => ['id' => "update_chambre", 'class' => "col-10 offset-1"]
+        ]);
         $form->handleRequest($request);
+        if ($request->isXmlHttpRequest()) {
+            $data = $request->request->all();
+            $chambre->setNumBatiment($data['numBatiment']);
+            $chambre->setType($data['type']);
+            $em->flush();
+            return $this->json(['response' => 'envoyé']);
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
@@ -83,12 +105,38 @@ class ChambreController extends AbstractController
      */
     public function delete(Request $request, Chambre $chambre): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$chambre->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $chambre->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($chambre);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('chambre_index');
+    }
+
+    //function génére le num chambre suivant ce Format​, Annee CC LL 0000
+    private function generateNumChambre($numBat)
+    {
+
+
+        $numBatStr = (string) ($numBat);
+        $lennumB = strlen($numBatStr);
+        $numfinal = '';
+        if ($lennumB == 1) {
+            $numfinal = '00' . $numBatStr;
+        } elseif ($lennumB == 2) {
+            $numfinal = '0' . $numBatStr;
+        } elseif ($lennumB == 3) {
+            $numfinal = $numBatStr;
+        } else {
+            return false;
+        }
+
+        //genere une série de quatre chiffre qui est distinct
+        $randomnum = rand();
+        $strnum = (string) ($randomnum);
+        $serieNum = substr($strnum, 0, 4);
+        $numeroChambre =  $numfinal . $serieNum;
+        return $numeroChambre;
     }
 }
