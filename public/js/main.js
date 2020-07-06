@@ -84,7 +84,7 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     if (data['response'] == 'envoyé') {
-                        alert('Vous avez ajoute une chambre avec succès');
+                        alert('Vous avez modifie la chambre avec succès');
                         window.location.href = '/chambre';
                     } else {
                         alert('Veuillez vérifier les informations saisies svp!');

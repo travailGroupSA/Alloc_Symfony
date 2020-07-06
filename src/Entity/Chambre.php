@@ -3,10 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ChambreRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ChambreRepository::class)
@@ -21,31 +18,19 @@ class Chambre
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=30)
      */
-    private $numChambre;
+    private $num_chambre;
 
     /**
-     * @ORM\Column(type="string", length=255,  unique=true)
+     * @ORM\Column(type="string", length=30)
      */
-    private $numBatiment;
+    private $num_batiment;
 
     /**
-     * @ORM\Column(type="string", length=255,  unique=true)
-     * @Assert\NotBlank
+     * @ORM\Column(type="string", length=50)
      */
     private $type;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Etudiant::class, mappedBy="chambre")
-     * @Assert\NotBlank
-     */
-    private $etudiants;
-
-    public function __construct()
-    {
-        $this->etudiants = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -54,24 +39,24 @@ class Chambre
 
     public function getNumChambre(): ?string
     {
-        return $this->numChambre;
+        return $this->num_chambre;
     }
 
-    public function setNumChambre(string $numChambre): self
+    public function setNumChambre(string $num_chambre): self
     {
-        $this->numChambre = $numChambre;
+        $this->num_chambre = $num_chambre;
 
         return $this;
     }
 
     public function getNumBatiment(): ?string
     {
-        return $this->numBatiment;
+        return $this->num_batiment;
     }
 
-    public function setNumBatiment(string $numBatiment): self
+    public function setNumBatiment(string $num_batiment): self
     {
-        $this->numBatiment = $numBatiment;
+        $this->num_batiment = $num_batiment;
 
         return $this;
     }
@@ -84,37 +69,6 @@ class Chambre
     public function setType(string $type): self
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Etudiant[]
-     */
-    public function getEtudiants(): Collection
-    {
-        return $this->etudiants;
-    }
-
-    public function addEtudiant(Etudiant $etudiant): self
-    {
-        if (!$this->etudiants->contains($etudiant)) {
-            $this->etudiants[] = $etudiant;
-            $etudiant->setChambre($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEtudiant(Etudiant $etudiant): self
-    {
-        if ($this->etudiants->contains($etudiant)) {
-            $this->etudiants->removeElement($etudiant);
-            // set the owning side to null (unless already changed)
-            if ($etudiant->getChambre() === $this) {
-                $etudiant->setChambre(null);
-            }
-        }
 
         return $this;
     }
