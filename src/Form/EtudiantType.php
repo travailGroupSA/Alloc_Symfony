@@ -18,27 +18,14 @@ class EtudiantType extends AbstractType
         $builder
             ->add('prenom')
             ->add('nom')
-            ->add('mail')
+            ->add('email')
+            ->add('telephone')
             ->add('birthday')
             ->add('boursier', ChoiceType::class, [
                 'choices'  => [
                     'Non' => null,
                     'Demi-bourse' => 'demi',
                     'Bourse-entiere' => 'entiere',
-                ],
-            ])
-            ->add('montantBourse', ChoiceType::class, [
-                'choices'  => [
-                    '' => null,
-                    '40000' => 40000,
-                    '20000' => 20000,
-                ],
-            ])
-            ->add('estLoge', ChoiceType::class, [
-                'choices'  => [
-                    '' => null,
-                    'Oui' => 1,
-                    'Non' => 0,
                 ],
             ])
             ->add('chambre',EntityType::class, [
@@ -50,7 +37,6 @@ class EtudiantType extends AbstractType
             ->add('adresse')
         ;
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
