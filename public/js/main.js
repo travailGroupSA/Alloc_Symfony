@@ -1,11 +1,10 @@
 $(document).ready(function () {
     //charger les chambres
-    $(".pagination .page-item").attr('class', "page-item");
+    // $(".pagination .page-item").attr('class', "page-item");
     $(".page-link").click(function (e) {
         e.preventDefault();
         let linkhref = $(this).attr('href');
         let numpage = linkhref ? linkhref.split('=')[1] : 1
-
         $.ajax({
             url: "/chambre/",
             method: "GET",
@@ -14,10 +13,28 @@ $(document).ready(function () {
             },
             success: function (rendu) {
                 $('#paginate_container').html(rendu);
+                e.preventDefault()
             },
-            dataType: 'text'
+            dataType: 'html'
         })
-    })
+    });
+    // $(".page-link").click(function (e) {
+    //     e.preventDefault();
+    //     let linkhref = $(this).attr('href');
+    //     let numpage = linkhref ? linkhref.split('=')[1] : 1
+    //     // alert(linkhref)
+    //     $.ajax({
+    //         url: "/chambre/",
+    //         method: "GET",
+    //         data: {
+    //             page: parseInt(numpage)
+    //         },
+    //         success: function (rendu) {
+    //             $('#paginate_container').html(rendu);
+    //         },
+    //         dataType: 'text'
+    //     })
+    // })
 
 
 

@@ -21,11 +21,29 @@ class ChambreController extends AbstractController
     /**
      * @Route("/", name="chambre_index", methods={"GET"})
      */
-    public function index(ChambreRepository $chambreRepository): Response
+    public function index(Request $request, ChambreRepository $chambreRepository): Response
     {
-        return $this->render('chambre/index.html.twig', [
-            'chambres' => $chambreRepository->findAll(),
-        ]);
+        $limit = 3;
+        $allChambres = $chambreRepository->findAll();
+        $nbre_total_chambres = count($allChambres);
+        $debulimit = ($request->query->getInt('page', 1) - 1) * $limit;
+        // $nbre_chambres_par_page = 5;
+        // $nbre_pages_max_gauche_et_droite = 5;
+        $total_page = ceil($nbre_total_chambres / $limit);
+        $page = $request->query->getInt('page', 1);
+        // if ($page < 1) {
+        //     $page = 1;
+        // } elseif ($page > $last_page) {
+        //     $page = $last_page;
+        // }
+        // $limit = ($page - 1) * $nbre_chambres_par_page . ',' . $nbre_chambres_par_page;
+        $chambres = $chambreRepository->findBy([],  $orderBy = [], $limit = $limit, $offset = $debulimit);
+        if ($request->isXmlHttpRequest()) {
+            $chambres = $chambreRepository->findBy([],  $orderBy = [], $limit = $limit, $offset = 3);
+            $page = $request->query->getInt('page', 1);
+            return $this->render('chambre/_chambrePaginator.html.twig', compact('chambres', 'page', 'total_page'));
+        }
+        return $this->render('chambre/index.html.twig', compact('chambres', 'page', 'total_page'));
     }
 
     /**
