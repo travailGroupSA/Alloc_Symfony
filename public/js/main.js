@@ -13,7 +13,6 @@ $(document).ready(function () {
             },
             success: function (rendu) {
                 $('#paginate_container').html(rendu);
-                e.preventDefault()
             },
             dataType: 'html'
         })
