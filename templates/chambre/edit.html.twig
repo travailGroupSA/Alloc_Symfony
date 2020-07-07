@@ -1,0 +1,15 @@
+{% extends 'layouts/_base.html.twig' %}
+
+{% block title %}Modifier la Chambre{% endblock %}
+
+{% block body %}
+ {% include 'partials/_header.html.twig' only %}
+    <h1>Modifier la Chambre</h1>
+    <div class="offset-1 mb-5">
+ <a class="btn btn-primary" href="{{ path('chambre_index') }}">Liste Chambre</a>
+
+    {{ include('chambre/_delete_form.html.twig') }}
+</div>
+    {{include('chambre/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+{% endblock %}

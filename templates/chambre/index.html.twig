@@ -1,15 +1,16 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/_base.html.twig' %}
+{% block title %}Chambre index{% endblock %}
 
-{% block title %}Hello EtudiantController!{% endblock %}
+{% block body %}
+    {% include 'partials/_header.html.twig' only %}
 
-{% block nav %}
-{% endblock %}
-{% block changer %}
-<!-- <div class="example-wrapper"> -->
-    <div class="form-group">
-      <label for=""></label>
-      <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
-      <small id="helpId" class="text-muted">Help text</small>
-    </div>
-<!-- </div> -->
+<div class="row">
+    <h3 class="col-6">Liste Chambre</h3>
+        <a  class=" btn btn-success float-right offset-4 " href="{{ path('chambre_new') }}">
+            Ajouter Une Chambre
+        </a>
+</div>
+<div id="paginate_container">
+{% include "chambre/_chambrePaginator.html.twig" %}
+</div>
 {% endblock %}

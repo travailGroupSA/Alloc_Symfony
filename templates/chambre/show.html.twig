@@ -1,0 +1,36 @@
+{% extends 'layouts/_base.html.twig' %}
+
+{% block title %}Chambre{% endblock %}
+
+{% block body %}
+    {% block header %}
+        
+    {% endblock %}
+     {% include 'partials/_header.html.twig' only %}
+    <h1>Chambre</h1>
+    <a class="btn btn-primary col-2" href="{{ path('chambre_index') }}">Liste Chambre</a>
+
+    <table class="table table-bordered bg-white col-12">
+        <thead class="bg-primary text-light">
+            <tr>
+                <th>Id</th>
+                <th>NumChambre</th>
+                <th>NumBatiment</th>
+                <th>Type</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ chambre.id }}</td>
+                <td>{{ chambre.numChambre }}</td>
+                <td>{{ chambre.numBatiment }}</td>
+                <td>{{ chambre.type }}</td>
+                <td>
+                    {{ include('chambre/_delete_form.html.twig') }}
+                    <a class="btn btn-warning" href="{{ path('chambre_edit', {'id': chambre.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>   
+{% endblock %}

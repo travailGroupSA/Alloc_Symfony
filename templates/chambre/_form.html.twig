@@ -1,0 +1,29 @@
+{# {{ form_start(form) }}
+    {# {{ form_widget(form) }} #}
+    {# <button class="btn btn-success">{{ button_label|default('Ajouter') }}</button> #}
+{#{{ form_end(form) }} #}
+{{ form_start(form)}}
+{% if chambre.id %}
+    <input type="hidden" class="form-control" name="{{ path('chambre_edit', {'id': chambre.id}) }}" id="url_edit">
+{% endif %}    <div class='form-row'>  
+        {{ form_label(form.numChambre) }}
+        {{ form_errors(form.numChambre) }}
+        {{ form_widget(form.numChambre) }}
+    </div>
+     <div class='form-row mt-2'>
+        <div class='col'>
+            {{ form_label(form.numBatiment) }}
+            {{ form_errors(form.numBatiment) }}
+            {{ form_widget(form.numBatiment) }}
+        </div>
+        <div class='col'>
+            {{ form_label(form.type) }}
+            {{ form_errors(form.type) }}
+            {{ form_widget(form.type) }}
+        </div>
+    </div>
+   
+     <button class="btn btn-success col-4 offset-4 mt-2">{{ button_label|default('Ajouter') }}</button>
+{{ form_end(form) }}
+   
+    

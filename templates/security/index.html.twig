@@ -1,0 +1,15 @@
+{% extends 'layouts/_base.html.twig' %}
+
+{% block title %}Chambre{% endblock %}
+
+{% block body %}
+    {% block header %}
+        
+    {% endblock %}
+     {% include 'partials/_header.html.twig' only %}
+    <h1 class="mt-5 mb-5 text-primary offset-2">Page Administration des chambres et etudiants</h1>
+   <div class="mt-5 offset-4">
+        <a class='btn btn-primary' href="{{ path('etudiant') }}">Liste des étudiants</a>
+    <a class='btn btn-primary' href="{{ path('chambre_index') }}">Liste des chambres</a>
+   </div>
+{% endblock %}

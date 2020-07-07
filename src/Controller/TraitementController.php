@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+
 use PDO;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -51,3 +52,4 @@ public function executeSql($bdd,$sql){
         }
     }
 }
+
