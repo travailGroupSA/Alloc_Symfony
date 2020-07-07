@@ -1,3 +1,13 @@
+*{
+  margin: 0px;
+  padding: 0px;
+}
+
+html,
+body {
+  height: 100vh;
+}
+
 /*
  * Globals
  */
@@ -24,17 +34,10 @@ a:hover {
  * Base structure
  */
 
-html,
-body {
-  height: 100%;
-  background-image: url("../images/img1.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  
-}
-body::after{
+
+/* body::after{
   background-color: lightblue;
-}
+} */
 
 body {
   display: -ms-flexbox;
@@ -42,6 +45,9 @@ body {
   color: #fff;
   text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
   box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
+  background-image: url("../images/img1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .cover-container {

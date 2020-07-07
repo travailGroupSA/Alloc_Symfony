@@ -1,6 +1,6 @@
 <?php
-
 namespace App\Controller; 
+use App\traitement;
 use Doctrine\DBAL\Types\DateTimeType;
 use App\functions\GenereMatricule;
 use App\Entity\Etudiant;
@@ -27,15 +27,15 @@ class EtudiantController extends AbstractController
         return $matricule = $annee.$twoFirstLetters.$twoLastLetters.$aleat;
     }
 
-
     /**
      * @Route("/etudiant", name="etudiant")
      */
     public function index(EtudiantRepository $etudiantRepository)
     {
-        $etudiants = $etudiantRepository->findAll();
+        // $etudiants = $etudiantRepository->findAll();
         // dd($etudiants);
-        return $this->render('etudiant/index.html.twig',compact('etudiants'));
+        // return $this->render('etudiant/index.html.twig',compact('etudiants'));
+        return $this->render('etudiant/index.html.twig');
     }
 
     /**
@@ -46,22 +46,23 @@ class EtudiantController extends AbstractController
         //$requete=>la soumission
         //creation d'1 objet Etudiant
         $etudiant = new Etudiant();
-        
         $etudiant->setDateInscription(new \DateTime("now"));
-        
         //creation du formulaire
         //on cree en mm temps un objet Etudiant=>hydrate
         $form = $this->createForm(EtudiantType::class,$etudiant);
         $form->handleRequest($requete);
+        if($etudiant->getBoursier()=="demi"){
+            $etudiant->setMontantBourse("20000");
+        }
+        else if($etudiant->getBoursier()=="entiere"){
+            $etudiant->setMontantBourse("40000");
+        }
         $etudiant->setMatricule($this->generateMat($etudiant->getNom(),$etudiant->getPrenom()));
         if($form->isSubmitted() && $form->isValid()){
-            // dd($etudiant);
-            // $manager = $this->getDoctrine()->getManager();
             $manager->persist($etudiant);
             $manager->flush();
             return $this->redirectToRoute('etudiant');
         }
-        // dd($form);
         return $this->render('etudiant/creerEtudiant.html.twig', [
             //on cree la vue form
             'form' => $form->createView(),
@@ -105,6 +106,4 @@ class EtudiantController extends AbstractController
        $manager->flush();
        return $this->redirectToRoute('etudiant');
     }
-
-
 }

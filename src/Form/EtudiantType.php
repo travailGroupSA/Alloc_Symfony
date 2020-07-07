@@ -2,13 +2,15 @@
 
 namespace App\Form;
 
-use App\Entity\Etudiant;
 use App\Entity\Chambre;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Etudiant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 
 class EtudiantType extends AbstractType
@@ -18,27 +20,18 @@ class EtudiantType extends AbstractType
         $builder
             ->add('prenom')
             ->add('nom')
-            ->add('mail')
-            ->add('birthday')
+            ->add('email')
+            ->add('telephone')
+            ->add('birthday',DateType::class, [
+                'widget' => 'single_text',
+                // this is actually the default format for single_text
+                'format' => 'yyyy-MM-dd',
+            ])
             ->add('boursier', ChoiceType::class, [
                 'choices'  => [
                     'Non' => null,
                     'Demi-bourse' => 'demi',
                     'Bourse-entiere' => 'entiere',
-                ],
-            ])
-            ->add('montantBourse', ChoiceType::class, [
-                'choices'  => [
-                    '' => null,
-                    '40000' => 40000,
-                    '20000' => 20000,
-                ],
-            ])
-            ->add('estLoge', ChoiceType::class, [
-                'choices'  => [
-                    '' => null,
-                    'Oui' => 1,
-                    'Non' => 0,
                 ],
             ])
             ->add('chambre',EntityType::class, [
@@ -50,7 +43,6 @@ class EtudiantType extends AbstractType
             ->add('adresse')
         ;
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
